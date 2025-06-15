@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Research Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #DF1783;
+            --primary-light: #f8a5d3;
+            --primary-dark: #a0105f;
+            --secondary: #333333;
+            --light: #f5f5f5;
+            --dark: #222222;
+            --gray: #e0e0e0;
+            --success: #28a745;
+            --white: white;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color:  #fff0f5;
+            color: var(--secondary);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #df1783;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        
+        .brand-logo {
+            width: 170px;
+            height: auto;
+            object-fit: contain;
+            margin: 20px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .logo h1 {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .logo p {
+            color: white;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .nav-menu {
+            margin-top: 20px;
+        }
+        
+        .nav-item {
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-item a {
+            display: block;
+            padding: 12px 15px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-item a:hover, .nav-item.active a {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        
+        .nav-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .template-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .template-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 30px;
+        }
+        
+        
+        
+    .header-text {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.dashboard-subtitle {
+    color: #666;
+    font-size: 16px;
+    margin-top: 5px;
+    line-height: 1.4;
+    max-width: 600px;
+}    
+        
+        
+        
+        
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+                flex-wrap: wrap;
+    gap: 15px;
+        }
+        
+        .dashboard-header h2 {
+            color: var(--primary);
+            font-size: 28px;
+        }
+        
+        .progress-tracker {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+        }
+        
+        .progress-text {
+            margin-right: 15px;
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 10px;
+            background: var(--gray);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 25%;
+            transition: width 0.5s;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        /* Checklist Panel */
+        .checklist-panel {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .panel-header h3 {
+            color: var(--primary);
+            font-size: 20px;
+        }
+        
+        .checklist-phase {
+            margin-bottom: 25px;
+        }
+        
+        .phase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        
+        .phase-title {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        .phase-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .phase-toggle {
+            color: var(--primary);
+            transition: transform 0.3s;
+        }
+        
+        .phase-content {
+            display: none;
+            padding-left: 30px;
+        }
+        
+        .phase-content.show {
+            display: block;
+        }
+        
+        
+        
+        
+        
+        /* Video Tour Section */
+.video-tour {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.video-tour h3 {
+    color: var(--primary);
+    margin-bottom: 15px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.video-tour h3 i {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background: var(--dark);
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.video-links {
+    display: flex;
+    gap: 10px;
+}
+
+.video-links a {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    border-radius: 5px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.video-links a:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.video-links a i {
+    margin-right: 5px;
+}
+        
+        
+        
+        
+        .checklist-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .checklist-item input {
+            margin-right: 10px;
+            accent-color: var(--primary);
+        }
+        
+        .checklist-item label {
+            flex: 1;
+        }
+        
+        .checklist-item.completed label {
+            text-decoration: line-through;
+            color: #888;
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        /* Research Panel */
+        .research-panel {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .research-section {
+            margin-bottom: 25px;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background-color: var(--primary);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            color: var(--white);
+        }
+        
+        .section-toggle {
+            color: var(--primary-dark);
+            transition: transform 0.3s;
+        }
+        
+        .section-content {
+            display: none;
+            padding: 20px;
+        }
+        
+        .section-content.show {
+            display: block;
+        }
+        
+        .tool-card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .tool-name {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        .tool-time {
+            background: var(--primary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tool-description {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .tool-steps {
+            margin-bottom: 15px;
+        }
+        
+        .tool-step {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+            font-size: 12px;
+        }
+        
+        .step-text {
+            flex: 1;
+        }
+        
+        .tool-link {
+            display: inline-block;
+            padding: 8px 15px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .tool-link:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+                margin-bottom: 20px;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            
+                .header-text {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+            
+            
+            
+            .progress-tracker {
+                width: 100%;
+                margin-top: 15px;
+            }
+        }
+        
+        
+        
+        
+        
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="logo">
+        
+                <img src="https://bucket.mlcdn.com/a/3336/3336910/images/5165da47eede5f06d2f185e3ad6100c67e2986df.gif" alt="VibeCoding Studio Logo" class="brand-logo">
+
+            <h1>Market Research</h1>
+            <p>Your All-in-One Investigation Dashboard</p>
+        </div>
+        
+        <div class="nav-menu">
+            <div class="nav-item active">
+                <a href="#"><i class="fas fa-home"></i> Dashboard</a>
+            </div>
+            <div class="nav-item">
+                <a href="#"><i class="fas fa-chart-line"></i> Market Investigation</a>
+            </div>
+            <div class="nav-item">
+                <a href="#"><i class="fas fa-bullseye"></i> Trend Identification</a>
+            </div>
+            <div class="nav-item">
+                <a href="#"><i class="fas fa-calculator"></i> Decision Analysis</a>
+            </div>
+            <div class="nav-item">
+                <a href="#"><i class="fas fa-book"></i> Case Studies</a>
+            </div>
+            <div class="nav-item">
+                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+            </div>
+            
+            <a href="#" class="template-btn">
+                <i class="fas fa-copy"></i> Copy Notion Template
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+<div class="main-content">
+    <div class="dashboard-header">
+        <div class="header-text">
+            <h2>Market Research Dashboard</h2>
+            <p class="dashboard-subtitle">Your complete toolkit for validating e-commerce ideas, spotting trends, and making data-driven decisions</p>
+        </div>
+        <div class="progress-tracker">
+            <div class="progress-text">Research Progress: 0%</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+            
+            
+        
+        <div class="dashboard-grid">
+            
+            
+            
+            
+            
+            <!-- Checklist Panel -->
+            <div class="checklist-panel">
+            
+            
+                      <!-- Add this right after the checklist-panel div opening tag (before panel-header) -->
+<div class="video-tour">
+    <h3><i class="fas fa-play-circle"></i> Dashboard Quickstart Guide</h3>
+    <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen></iframe>
+    </div>
+    <div class="video-links">
+        <a href="#"><i class="fas fa-file-alt"></i> Written Guide</a>
+        <a href="#"><i class="fas fa-question-circle"></i> FAQ</a>
+    </div>
+</div>
+              
+            
+     
+                <div class="panel-header">
+                
+          
+                
+                    <h3>Research Checklist</h3>
+                    <span>5 phases</span>
+                </div>
+                
+                <div class="checklist-phase">
+                    <div class="phase-header" onclick="togglePhase(this)">
+                        <div class="phase-title">
+                            <i class="fas fa-pencil-alt"></i>
+                            <span>Preparation Phase</span>
+                        </div>
+                        <i class="fas fa-chevron-down phase-toggle"></i>
+                    </div>
+                    <div class="phase-content">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="prep1">
+                            <label for="prep1">Define business idea and objectives</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="prep2">
+                            <label for="prep2">Gather tools (surveys, analytics software)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="checklist-phase">
+                    <div class="phase-header" onclick="togglePhase(this)">
+                        <div class="phase-title">
+                            <i class="fas fa-search"></i>
+                            <span>Investigation Phase</span>
+                        </div>
+                        <i class="fas fa-chevron-down phase-toggle"></i>
+                    </div>
+                    <div class="phase-content">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="inv1">
+                            <label for="inv1">Research trends and market data</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="inv2">
+                            <label for="inv2">Analyze competitors and brands</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="inv3">
+                            <label for="inv3">Calculate initial profit margins</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="checklist-phase">
+                    <div class="phase-header" onclick="togglePhase(this)">
+                        <div class="phase-title">
+                            <i class="fas fa-bullseye"></i>
+                            <span>Niche Definition Phase</span>
+                        </div>
+                        <i class="fas fa-chevron-down phase-toggle"></i>
+                    </div>
+                    <div class="phase-content">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="niche1">
+                            <label for="niche1">Identify potential niches</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="niche2">
+                            <label for="niche2">Validate niche demand</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="niche3">
+                            <label for="niche3">Document industry insights</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="checklist-phase">
+                    <div class="phase-header" onclick="togglePhase(this)">
+                        <div class="phase-title">
+                            <i class="fas fa-calculator"></i>
+                            <span>Analysis Phase</span>
+                        </div>
+                        <i class="fas fa-chevron-down phase-toggle"></i>
+                    </div>
+                    <div class="phase-content">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="ana1">
+                            <label for="ana1">Estimate costs and expenses</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="ana2">
+                            <label for="ana2">Project profits and selling prices</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="ana3">
+                            <label for="ana3">Evaluate offers and pricing strategies</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="checklist-phase">
+                    <div class="phase-header" onclick="togglePhase(this)">
+                        <div class="phase-title">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Review and Iteration Phase</span>
+                        </div>
+                        <i class="fas fa-chevron-down phase-toggle"></i>
+                    </div>
+                    <div class="phase-content">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="rev1">
+                            <label for="rev1">Review findings and adjust plans</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="rev2">
+                            <label for="rev2">Test assumptions with prototypes</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="rev3">
+                            <label for="rev3">Finalize the business model</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Research Tools Panel -->
+            <div class="research-panel">
+                <div class="panel-header">
+                    <h3>Research Tools & Resources</h3>
+                    <span>22 tools</span>
+                </div>
+                
+                <div class="research-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">Market Investigation Tools</div>
+                        <i class="fas fa-chevron-down section-toggle"></i>
+                    </div>
+                    <div class="section-content">
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-name">Facebook Audience Insights</div>
+                                <div class="tool-time">15-30 min</div>
+                            </div>
+                            <div class="tool-description">
+                                Understand your target audience demographics, interests, and behaviors.
+                            </div>
+                            <div class="tool-steps">
+                                <div class="tool-step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-text">Go to Facebook Audience Insights tool</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-text">Select "Everyone on Facebook" or create a custom audience</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-text">Analyze demographics, page likes, location, and activity</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">4</div>
+                                    <div class="step-text">Export data or take screenshots for your research</div>
+                                </div>
+                            </div>
+                            <a href="https://www.facebook.com/ads/audience-insights/" class="tool-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Open Tool
+                            </a>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-name">SimilarWeb</div>
+                                <div class="tool-time">20-40 min</div>
+                            </div>
+                            <div class="tool-description">
+                                Analyze competitor website traffic, sources, and audience interests.
+                            </div>
+                            <div class="tool-steps">
+                                <div class="tool-step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-text">Enter competitor's website URL in SimilarWeb</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-text">Review traffic overview (total visits, bounce rate, etc.)</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-text">Analyze traffic sources (direct, search, social, etc.)</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">4</div>
+                                    <div class="step-text">Check audience interests and demographics</div>
+                                </div>
+                            </div>
+                            <a href="https://www.similarweb.com/" class="tool-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Open Tool
+                            </a>
+                        </div>
+                        
+                        
+                        <!-- Add these inside the Market Investigation Tools section-content div -->
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">startup.ai</div>
+        <div class="tool-time">20-30 min</div>
+    </div>
+    <div class="tool-description">
+        Explore validated startup ideas and business concepts.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Browse through the categorized startup ideas</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Filter by industry or business model</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Analyze validation metrics for promising ideas</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Save ideas to your Notion template for further research</div>
+        </div>
+    </div>
+    <a href="https://startup.ai/" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">Instagram Shopping</div>
+        <div class="tool-time">15-25 min</div>
+    </div>
+    <div class="tool-description">
+        Discover trending products and brands on Instagram.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Search for products in your niche</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Analyze popular brands and their offerings</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Note pricing strategies and customer engagement</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Track product presentation and descriptions</div>
+        </div>
+    </div>
+    <a href="https://www.instagram.com/shopping" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">Amazon Best Sellers</div>
+        <div class="tool-time">20-40 min</div>
+    </div>
+    <div class="tool-description">
+        Identify top-selling products across categories on Amazon.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Select your product category of interest</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Analyze top 100 products in the category</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Note pricing, reviews, and product features</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Identify gaps or opportunities in the market</div>
+        </div>
+    </div>
+    <a href="https://www.amazon.com/Best-Sellers/zgbs/" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">eBay Trending</div>
+        <div class="tool-time">15-30 min</div>
+    </div>
+    <div class="tool-description">
+        Discover currently trending products on eBay.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Browse trending products by category</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Analyze price points and shipping options</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Note product conditions (new, used, refurbished)</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Track sell-through rates and bidding activity</div>
+        </div>
+    </div>
+    <a href="https://www.ebay.com/trending/" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">Etsy Trending</div>
+        <div class="tool-time">15-25 min</div>
+    </div>
+    <div class="tool-description">
+        Discover handmade, vintage, and creative goods trends.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Browse trending items on Etsy</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Analyze product customization options</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Note pricing strategies for handmade goods</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Study shop policies and shipping setups</div>
+        </div>
+    </div>
+    <a href="https://www.etsy.com/trending/" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>
+
+
+
+
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+                
+                <div class="research-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">Trend Identification Tools</div>
+                        <i class="fas fa-chevron-down section-toggle"></i>
+                    </div>
+                    <div class="section-content">
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-name">Pinterest Trends</div>
+                                <div class="tool-time">10-20 min</div>
+                            </div>
+                            <div class="tool-description">
+                                Discover trending topics and seasonal patterns on Pinterest.
+                            </div>
+                            <div class="tool-steps">
+                                <div class="tool-step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-text">Visit Pinterest Trends dashboard</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-text">Enter keywords related to your niche</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-text">Analyze trend patterns over time</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">4</div>
+                                    <div class="step-text">Compare multiple keywords to find the most promising</div>
+                                </div>
+                            </div>
+                            <a href="https://trends.pinterest.com/" class="tool-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Open Tool
+                            </a>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-name">AnswerThePublic</div>
+                                <div class="tool-time">15-25 min</div>
+                            </div>
+                            <div class="tool-description">
+                                Visualize search questions and suggested autocompletes in an instant.
+                            </div>
+                            <div class="tool-steps">
+                                <div class="tool-step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-text">Enter a keyword or phrase related to your niche</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-text">Select your country and language</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-text">Analyze the visualization of questions, prepositions, and comparisons</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">4</div>
+                                    <div class="step-text">Download the data or take notes of key insights</div>
+                                </div>
+                            </div>
+                            <a href="https://answerthepublic.com/" class="tool-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Open Tool
+                            </a>
+                        </div>
+                        
+                        
+                        
+<!-- Add these inside the Trend Identification Tools section-content div -->
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">Perplexity.ai</div>
+        <div class="tool-time">15-30 min</div>
+    </div>
+    <div class="tool-description">
+        AI-powered research tool for comprehensive market insights.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Enter your research question or topic</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Review AI-generated summary and sources</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Follow up with specific questions to dive deeper</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Export findings to your Notion template</div>
+        </div>
+    </div>
+    <a href="https://www.perplexity.ai/" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">Scira.ai</div>
+        <div class="tool-time">10-20 min</div>
+    </div>
+    <div class="tool-description">
+        Minimalist AI search engine for focused research.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Enter your niche or product keywords</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Review concise, AI-curated results</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Use filters to narrow down information</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Save relevant findings to your research</div>
+        </div>
+    </div>
+    <a href="https://scira.ai/" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">Glimpse Trends</div>
+        <div class="tool-time">20-30 min</div>
+    </div>
+    <div class="tool-description">
+        Real-time trend tracking across multiple platforms.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Browse trending topics by category</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Analyze trend velocity and trajectory</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Compare trends across different platforms</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Save promising trends for validation</div>
+        </div>
+    </div>
+    <a href="https://meetglimpse.com/trends/" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">Answer Socrates</div>
+        <div class="tool-time">15-25 min</div>
+    </div>
+    <div class="tool-description">
+        Get AI-powered answers to complex business questions.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Enter your business or market question</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Review the synthesized answer</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Ask follow-up questions to dive deeper</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Export insights to your research documentation</div>
+        </div>
+    </div>
+    <a href="https://answersocrates.com/" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>
+
+
+
+                        
+                        
+                        
+                    </div>
+                </div>
+                
+                <div class="research-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">Decision Analysis Tools</div>
+                        <i class="fas fa-chevron-down section-toggle"></i>
+                    </div>
+                    <div class="section-content">
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-name">Validea</div>
+                                <div class="tool-time">10-15 min</div>
+                            </div>
+                            <div class="tool-description">
+                                Validate your business idea with AI-powered analysis.
+                            </div>
+                            <div class="tool-steps">
+                                <div class="tool-step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-text">Describe your business idea in detail</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-text">Select your target market and industry</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-text">Review the AI-generated validation report</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">4</div>
+                                    <div class="step-text">Analyze strengths, weaknesses, and suggestions</div>
+                                </div>
+                            </div>
+                            <a href="https://validea.co/" class="tool-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Open Tool
+                            </a>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-name">Particl Trends</div>
+                                <div class="tool-time">20-30 min</div>
+                            </div>
+                            <div class="tool-description">
+                                Get insights into emerging trends and consumer behavior.
+                            </div>
+                            <div class="tool-steps">
+                                <div class="tool-step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-text">Browse through the trending categories</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-text">Select trends relevant to your business</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-text">Analyze the trend data and projections</div>
+                                </div>
+                                <div class="tool-step">
+                                    <div class="step-number">4</div>
+                                    <div class="step-text">Document key insights for your business planning</div>
+                                </div>
+                            </div>
+                            <a href="https://www-particl-com" class="tool-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Open Tool
+                            </a>
+                        </div>
+                        
+                        
+            
+            
+            
+  <!-- Add these inside the Decision Analysis Tools section-content div -->
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">Aithor</div>
+        <div class="tool-time">20-40 min</div>
+    </div>
+    <div class="tool-description">
+        Deep analysis tool for business strategy and decision-making.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Input your business concept or data</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Select analysis type (SWOT, PESTEL, etc.)</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Review comprehensive analysis report</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Apply insights to your business model</div>
+        </div>
+    </div>
+    <a href="https://aithor.com/" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">ChatPDF</div>
+        <div class="tool-time">15-30 min</div>
+    </div>
+    <div class="tool-description">
+        Analyze case studies and reports by chatting with PDF documents.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Upload a business case study or report</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Ask specific questions about the content</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Extract key insights and data points</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Compare findings with your business model</div>
+        </div>
+    </div>
+    <a href="https://www.chatpdf.com/" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">Humata.ai</div>
+        <div class="tool-time">15-25 min</div>
+    </div>
+    <div class="tool-description">
+        AI tool for analyzing and summarizing complex documents.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Upload research papers or business documents</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Ask questions about the content</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Get instant summaries of key points</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Use insights to inform your decisions</div>
+        </div>
+    </div>
+    <a href="https://humata.ai/" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-name">SEMrush</div>
+        <div class="tool-time">30-45 min</div>
+    </div>
+    <div class="tool-description">
+        Comprehensive SEO and market analysis tool for competitive research.
+    </div>
+    <div class="tool-steps">
+        <div class="tool-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Enter competitor domains or keywords</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Analyze traffic, keywords, and backlinks</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Review advertising and content strategies</div>
+        </div>
+        <div class="tool-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Identify gaps and opportunities</div>
+        </div>
+    </div>
+    <a href="https://www.semrush.com/" class="tool-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Open Tool
+    </a>
+</div>                      
+   
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="research-section">
+    <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-title">Case Studies & Examples</div>
+        <i class="fas fa-chevron-down section-toggle"></i>
+    </div>
+    <div class="section-content">
+        <div class="tool-card">
+            <div class="tool-header">
+                <div class="tool-name">Particl Case Studies</div>
+                <div class="tool-time">30-45 min</div>
+            </div>
+            <div class="tool-description">
+                Detailed year-to-date insights and trend analyses.
+            </div>
+            <div class="tool-steps">
+                <div class="tool-step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Review the presentation deck</div>
+                </div>
+                <div class="tool-step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Analyze successful case studies</div>
+                </div>
+                <div class="tool-step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Note key strategies and outcomes</div>
+                </div>
+                <div class="tool-step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Apply relevant insights to your business</div>
+                </div>
+            </div>
+            <a href="https://pitch.com/v/2025-particls-year-to-date-insights-dbckd6/b43ea207-c75e-4423-b07b-101e0e669c2a/" class="tool-link" target="_blank">
+                <i class="fas fa-external-link-alt"></i> Open Tool
+            </a>
+        </div>
+        
+        <div class="tool-card">
+            <div class="tool-header">
+                <div class="tool-name">Data Scrapers</div>
+                <div class="tool-time">40-60 min</div>
+            </div>
+            <div class="tool-description">
+                Chrome extensions for extracting data from websites.
+            </div>
+            <div class="tool-steps">
+                <div class="tool-step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Install a data scraper extension</div>
+                </div>
+                <div class="tool-step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Navigate to target website</div>
+                </div>
+                <div class="tool-step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Select and extract relevant data</div>
+                </div>
+                <div class="tool-step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Export to CSV for analysis</div>
+                </div>
+            </div>
+            <a href="https://chrome.google.com/webstore/search/data%20scraper" class="tool-link" target="_blank">
+                <i class="fas fa-external-link-alt"></i> Find Extensions
+            </a>
+        </div>
+    </div>
+</div>
+                
+                
+                
+                
+                
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Toggle checklist phases
+        function togglePhase(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.phase-toggle');
+            
+            content.classList.toggle('show');
+            icon.classList.toggle('fa-chevron-down');
+            icon.classList.toggle('fa-chevron-up');
+        }
+        
+        // Toggle research sections
+        function toggleSection(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.section-toggle');
+            
+            content.classList.toggle('show');
+            icon.classList.toggle('fa-chevron-down');
+            icon.classList.toggle('fa-chevron-up');
+        }
+        
+        // Update checklist items
+        document.querySelectorAll('.checklist-item input').forEach(item => {
+            item.addEventListener('change', function() {
+                const label = this.nextElementSibling;
+                const itemContainer = this.parentElement;
+                
+                if (this.checked) {
+                    itemContainer.classList.add('completed');
+                    updateProgress();
+                } else {
+                    itemContainer.classList.remove('completed');
+                    updateProgress();
+                }
+            });
+        });
+        
+        // Calculate and update progress
+        function updateProgress() {
+            const totalItems = document.querySelectorAll('.checklist-item').length;
+            const completedItems = document.querySelectorAll('.checklist-item.completed').length;
+            const progress = Math.round((completedItems / totalItems) * 100);
+            
+            document.querySelector('.progress-fill').style.width = `${progress}%`;
+            document.querySelector('.progress-text').textContent = `Research Progress: ${progress}%`;
+        }
+        
+        // Initialize with first sections open
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.phase-content').classList.add('show');
+            document.querySelector('.phase-toggle').classList.remove('fa-chevron-down');
+            document.querySelector('.phase-toggle').classList.add('fa-chevron-up');
+            
+            document.querySelector('.section-content').classList.add('show');
+            document.querySelector('.section-toggle').classList.remove('fa-chevron-down');
+            document.querySelector('.section-toggle').classList.add('fa-chevron-up');
+        });
+    </script>
+</body>
+</html>

@@ -31,6 +31,45 @@
             background-color:  #fff0f5;
             color: var(--secondary);
         }
+
+
+
+
+          .custom-image-widget {
+  position: fixed !important;
+  top: 70px !important;  /* Verify this value isn't too large */
+  margin: 0 !important;
+  padding: 0 !important;
+    right: 0px; /* Add spacing from the edge */
+        z-index: 999;
+}
+  
+    .custom-image {
+        width: 70px;
+        height: auto;
+       transition: transform 0.2s;
+    }
+    
+    
+      .custom-image-widget:hover .custom-image {
+        transform: scale(1.05); /* Slight zoom effect */
+    }  
+ 
+ 
+     .custom-image-widget:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+ 
+
+
+
+
+
+
+
+
+        
         
         /* Sidebar */
         .sidebar {
@@ -535,6 +574,25 @@
     </style>
 </head>
 <body>
+
+
+ <div class="custom-image-widget" style="position: relative; display: inline-block;"> <!-- ADD THESE STYLES -->
+    <a href="https://bebell-digital-solutions.github.io/deep-research-espanol">
+        <img class="custom-image" 
+             src="https://bucket.mlcdn.com/a/3336/3336910/images/138f14304ea21715dfae64ae5fe1d71b08c2d451.png" 
+             alt="English Translation"
+             style="display: block;"> <!-- Ensure image is block-level -->
+    </a>
+
+</div>
+
+
+
+
+
+
+
+    
     <!-- Sidebar Navigation -->
     <div class="sidebar">
         <div class="logo">
